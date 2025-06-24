@@ -1,0 +1,24 @@
+Task:
+Review text and look for typos following these rules.
+- Find spelling mistakes(typos), in English and Japanese
+- Check for inconsistent usage of long vowel marks (ー) in katakana words.
+For example, "ユーザー" and "ユーザ" should not be mixed—only one form should be used consistently throughout the text.
+- Check for inconsistent capitalization of words — for example, "Tag" and "tag" should not be mixed. Use a consistent casing throughout the text.
+- Identify words that should be in plural form based on context but are written in singular form.
+For example, if the sentence refers to multiple items but uses "file" instead of "files", flag it as inconsistent.
+- Write before and after changes concisely and limit 20 characters
+- If the same mistake appears multiple times, indicate it as "複数: X箇所"
+- If there is no changes, output "修正箇所はありません"
+
+Exclude:
+- where to put punctuation
+- where english words are written in katakana
+- kanji variation
+- spaces between numbers/words
+- missing spaces
+
+Format:
+修正前: AAAA
+修正後: BBBB
+複数: X箇所 (if exist multiple times per mistake)
+-- (use "--" as delimiter)

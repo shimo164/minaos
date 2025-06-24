@@ -1,0 +1,46 @@
+{
+  "hosting": {
+    "source": "hosting",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "/api/verify-recaptcha", "function": "verifyRecaptcha" },
+      { "source": "**", "destination": "/index.html" }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions/on_request_example",
+      "codebase": "on_request_example",
+      "ignore": [
+        "venv",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "runtime": "python313"
+    },
+    {
+      "source": "functions/recaptcha",
+      "codebase": "verify_recaptcha",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+      ]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5555
+    }
+  }
+}

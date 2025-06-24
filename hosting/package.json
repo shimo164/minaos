@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "firebase": "^10.14.1",
+    "firebaseui": "^6.1.0",
+    "next": "~15.0.0",
+    "postcss": "^8.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.8",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/next": "^8.0.7",
+    "@types/node": "20.10.8",
+    "@types/react": "18.2.47",
+    "@types/react-dom": "18.2.18",
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.12",
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.3.3"
+  }
+}

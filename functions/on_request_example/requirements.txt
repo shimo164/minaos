@@ -1,0 +1,7 @@
+firebase-functions==0.4.3
+requests>=2.31.0
+bs4
+google-genai
+google-cloud-logging
+python-dotenv
+pytest
