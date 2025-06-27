@@ -1,10 +1,11 @@
 "use client";
 
 import MenuBar from "@/app/components/MenuBar";
-import { buttonClass } from "@/styles/classNames/button";
+import { buttonBlue, buttonRed } from "@/styles/classNames/button";
 import { errorClass } from "@/styles/classNames/dashboard";
 import { background, container } from "@/styles/classNames/layout";
-import { linkText } from "@/styles/classNames/typography";
+import { h1 } from "@/styles/classNames/typography";
+import { clsx } from "clsx";
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -61,8 +62,8 @@ export default function AdminLogin() {
       <div className={background}>
         <MenuBar />
         <div className={container}>
-          <div className="mb-4 text-center">
-            <h1 className="text-l mt-4">Admin Login</h1>
+          <div className="mb-4 w-full max-w-xs text-center">
+            <h1 className={clsx(h1)}>Admin Login</h1>
             {!isAdminMode && (
               <div className="mt-4">
                 <input
@@ -77,9 +78,9 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
-                  className="w-full max-w-xs rounded border p-2"
+                  className="mb-2 w-full max-w-xs rounded border p-2"
                 />
-                <button onClick={handleSubmit} className={buttonClass("blue")}>
+                <button onClick={handleSubmit} className={buttonBlue}>
                   Login
                 </button>
                 {error && <div className={errorClass}>{error}</div>}
@@ -87,14 +88,12 @@ export default function AdminLogin() {
             )}
             {isAdminMode && (
               <div>
-                <button className={buttonClass("red")} onClick={handleLogout}>
+                <button
+                  className={clsx(buttonRed, "mt-2")}
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
-                <div className="mt-4">
-                  <a href="/dashboard" className={linkText}>
-                    Go to Dashboard
-                  </a>
-                </div>
               </div>
             )}
           </div>

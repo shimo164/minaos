@@ -1,19 +1,23 @@
 import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 
-interface AuthCheckerProps {
-  onAuthChange: (isLoggedIn: boolean) => void;
-}
-
-export default function AuthChecker({ onAuthChange }: AuthCheckerProps) {
+const AuthChecker = ({
+  onAuthChange,
+}: {
+  onAuthChange: (loggedIn: boolean) => void;
+}) => {
   useEffect(() => {
-    const checkAuth = () => {
-      const currentUser = auth.currentUser;
-      onAuthChange(!!currentUser);
-    };
-    checkAuth();
-    // Optionally, you can add an auth state listener here if needed
+    // Set initial login state synchronously
+    onAuthChange(!!auth.currentUser);
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      onAuthChange(!!user);
+    });
+    return () => unsubscribe();
   }, [onAuthChange]);
 
-  return null; // This component does not render anything
-}
+  return null;
+};
+
+export default AuthChecker;

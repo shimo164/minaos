@@ -18,13 +18,26 @@ const buttonCommon = clsx(
   "focus:ring-opacity-75",
 );
 
-export const buttonClass = (color: string) =>
-  clsx(
-    buttonCommon,
-    `bg-${color}-600`,
-    `hover:bg-${color}-700`,
-    `focus:ring-${color}-500`,
-  );
+export const buttonBlue = clsx(
+  buttonCommon,
+  `bg-blue-600`,
+  `hover:bg-blue-700`,
+  `focus:ring-blue-500`,
+);
+
+export const buttonGreen = clsx(
+  buttonCommon,
+  `bg-green-600`,
+  `hover:bg-green-700`,
+  `focus:ring-green-500`,
+);
+
+export const buttonRed = clsx(
+  buttonCommon,
+  `bg-red-600`,
+  `hover:bg-red-700`,
+  `focus:ring-red-500`,
+);
 
 export const buttonRunClass = (fetchLoading: boolean) =>
   clsx(

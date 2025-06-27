@@ -36,7 +36,12 @@ def generate_gemini_result(
     logging.info("Starting response generation...")
     start_time = time.time()
 
-    response = _generate_response(model, prompt, config)
+    try:
+        response = _generate_response(model, prompt, config)
+    except Exception as e:
+        logging.error(f"Error generating response: {e}")
+        raise ValueError("Failed to generate response from Gemini model.") from e
+
     logging.info("Response generated successfully.")
 
     tokens_count = {

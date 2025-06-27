@@ -17,11 +17,11 @@ export const infoClass = clsx(
   "mb-6",
   "rounded-lg",
   "border",
-  "border-gray-400",
-  "bg-gray-100",
+  "border-blue-400",
+  "bg-blue-100",
   "px-4",
   "py-3",
-  "text-gray-700",
+  "text-blue-700",
   "text-center",
 );
 

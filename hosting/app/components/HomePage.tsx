@@ -9,7 +9,7 @@ import {
   columnLayoutStyles,
   container,
 } from "@/styles/classNames/layout";
-import { h1, h1Text, normalText } from "@/styles/classNames/typography";
+import { h1, h1Text, normalText_c } from "@/styles/classNames/typography";
 
 import { infoClass } from "@/styles/classNames";
 import { clsx } from "clsx";
@@ -30,7 +30,7 @@ export default function HomePage() {
         <div className={container}>
           <div className={columnLayoutStyles}>
             <h1 className={clsx(h1, h1Text)}>ブログ見直しくん</h1>
-            <p className={clsx(normalText)}>技術ブログをAIが校正します。</p>
+            <p className={clsx(normalText_c)}>AIを、技術ブログを校正します。</p>
             <AuthChecker onAuthChange={setIsLoggedIn} />
             {!isLoggedIn ? (
               <AnonymousLogin />

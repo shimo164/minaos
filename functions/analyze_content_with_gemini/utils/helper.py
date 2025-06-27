@@ -1,9 +1,10 @@
 import json
 import logging
+import os
 
 from firebase_functions import https_fn
 
-from check_blog import get_content
+from .check_blog import get_content
 
 
 def create_res(message: dict, status: int, headers: dict) -> https_fn.Response:
@@ -30,11 +31,16 @@ def set_config(model: str) -> dict:
     return config
 
 
-def get_prompt(url: str, task_file: str) -> str:
+def generate_prompt(url: str, task_file: str) -> str:
+
     with open(f"tasks/{task_file}", "r") as file:
         task = file.read()
 
     content = get_content(url)
+    print("content length:", content["length"])
+    logging.debug(f"Content fetched: {content}")
+    if content["length"] > int(os.environ.get("MAX_CONTENT_LENGTH", 10000)):
+        raise ValueError("本文が長すぎます")
 
     prompt = f"""
     task: {task}

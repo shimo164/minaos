@@ -10,12 +10,13 @@ export const handleResponse = async (
 }> => {
   if (!response.ok) {
     const errorData = await response.json();
+    console.error("errorData", errorData);
     logging("Response status:", response.status);
     logging("Error response:", errorData);
     return {
       output: null,
       elapsed_time: "0.0",
-      error: `Failed to fetch: ${response.status} - ${errorData.message}`,
+      error: `取得に失敗しました\n(Status code: ${response.status} - ${errorData.error})`,
     };
   }
 

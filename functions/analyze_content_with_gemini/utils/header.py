@@ -1,7 +1,7 @@
+import logging
 import os
 
 from dotenv import load_dotenv
-import logging
 from firebase_admin import auth
 from firebase_functions import https_fn
 from utils.helper import create_res

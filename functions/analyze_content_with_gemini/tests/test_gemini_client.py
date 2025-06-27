@@ -2,10 +2,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from gemini_client import generate_gemini_result
+from functions.analyze_content_with_gemini.utils.gemini_client import (
+    generate_gemini_result,
+)
 
 
-@patch("gemini_client._client")
+@patch("functions.analyze_content_with_gemini.utils.gemini_client._client")
 def test_generate_gemini_result_success(mock_client_factory):
 
     mock_generate_content = MagicMock()

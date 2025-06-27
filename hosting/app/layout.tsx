@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import { AuthProvider } from "./providers/auth-context";
 
 // NOTE: metadata: viewportを含めない
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <Script
           src="https://www.google.com/recaptcha/api.js?render=6LcI5FArAAAAAJj59VIUw_OStystg2QlCNdhShCg"
           strategy="afterInteractive"

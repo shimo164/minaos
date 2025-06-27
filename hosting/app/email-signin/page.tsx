@@ -3,7 +3,7 @@
 import MenuBar from "@/app/components/MenuBar";
 import { registerUser } from "@/lib/auth";
 import { auth } from "@/lib/firebase";
-import { buttonClass } from "@/styles/classNames/button";
+import { buttonBlue } from "@/styles/classNames/button";
 import { errorClass } from "@/styles/classNames/dashboard";
 import { background, container } from "@/styles/classNames/layout";
 import { logging } from "@/utils/logging";
@@ -81,7 +81,7 @@ export default function EmailSignInPage() {
                     className="w-full max-w-sm rounded border border-gray-300 px-4 py-2"
                   />
                 </label>
-                <button type="submit" className={buttonClass("blue")}>
+                <button type="submit" className={buttonBlue}>
                   Sign In
                 </button>
               </form>

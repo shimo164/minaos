@@ -1,7 +1,10 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from check_blog import _remove_chars, get_content
+from functions.analyze_content_with_gemini.utils.check_blog import (
+    _remove_chars,
+    get_content,
+)
 
 
 @pytest.fixture
