@@ -1,35 +1,26 @@
 import { clsx } from "clsx";
 
+export const menuButtonCommonClass = clsx(
+  "p-2",
+  "font-medium",
+  "transition",
+  "duration-200",
+  "ease-in-out",
+  "basis-1/5",
+);
+
 export const menuButtonActiveClass = clsx(
+  menuButtonCommonClass,
   "text-gray-800",
   "bg-gray-100",
   "hover:bg-gray-200",
   "active:bg-gray-300",
-  "p-2",
-  "font-medium",
-  "focus:outline-none",
-  "focus:ring-2",
-  "focus:ring-blue-500",
-  "focus:ring-opacity-75",
-  "transition",
-  "duration-200",
-  "ease-in-out",
-  "basis-1/4",
 );
 
 export const menuButtonInactiveClass = clsx(
+  menuButtonCommonClass,
   "text-white",
   "bg-gray-200",
-  "p-2",
-  "font-medium",
-  "focus:outline-none",
-  "focus:ring-2",
-  "focus:ring-blue-500",
-  "focus:ring-opacity-75",
-  "transition",
-  "duration-200",
-  "ease-in-out",
-  "basis-1/4",
 );
 
 export const menubarContainer = clsx(

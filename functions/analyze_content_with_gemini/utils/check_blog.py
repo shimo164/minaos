@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+from .errors import NotFoundError
+
 
 def _get_blog_type(url: str) -> str:
     """
@@ -8,11 +10,11 @@ def _get_blog_type(url: str) -> str:
     """
     if "zenn.dev" in url:
         return "zenn"
-    elif "qiita.com" in url:
+    elif "qiita.com" in url:  # TODO: Not Used
         return "qiita"
-    elif "note.com" in url:
+    elif "note.com" in url:  # TODO: Not Used
         return "note"
-    elif "hatena.ne.jp" in url:
+    elif "hatena.ne.jp" in url:  # TODO: Not Used
         return "hatena"
     else:
         return "other"
@@ -25,9 +27,15 @@ def _get_bs_article(url: str) -> BeautifulSoup:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
+
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            raise NotFoundError(f"Not Found for url: {url}")
+        raise
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching the URL: {e}")
-        return None
+        print(e)
+        raise ValueError(e)
+        # return None
     article = soup.find("article")
     return article
 
@@ -106,15 +114,33 @@ def _extract_content(article: BeautifulSoup, blog_type: str) -> dict:
 
 
 def get_content(url):
+    """Return the content of a blog post.
+
+    Args:
+        url (str): The URL of the blog post.
+    Returns:
+        dict: A dictionary containing the extracted text, its length, original length, and blog type.
+
+    If fails to fetch the article, returns an empty content with blog type.
+
+    return {
+        "text": "",
+        "length": 0,
+        "orig_length": 0,
+        "blog_type": blog_type,
+    }
+    """
     article = _get_bs_article(url)
     blog_type = _get_blog_type(url)
     return _extract_content(article, blog_type)
 
 
 # Example usage
+# TODO: Remove sometime after
 if __name__ == "__main__":
 
     url = "https://zenn.dev/shimo_s3/articles/28d9e446065c6e"
+    url = "https://x.com/home"
 
     result = get_content(url)
     text = result["text"]

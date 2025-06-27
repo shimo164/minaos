@@ -12,7 +12,9 @@ export default function ErrorDisplay({ error }: ErrorDisplayProps) {
   return (
     <div className={errorClass} role="alert">
       <strong>Error!</strong>
-      <span className="ml-2">{error}</span>
+      <span className="ml-2" style={{ whiteSpace: "pre-line" }}>
+        {error}
+      </span>
     </div>
   );
 }

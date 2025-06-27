@@ -12,16 +12,17 @@ import {
 import { columnLayoutStyles, squareArea } from "@/styles/classNames";
 
 import ResultDisplay from "@/app/components/ResultDisplay";
-import { auth } from "@/lib/firebase";
+import { h1, h1Text, normalText_c } from "@/styles/classNames/typography";
 import { handleResponse } from "@/utils/handle_response";
 import { logging } from "@/utils/logging";
 import { isForbiddenDomain, validateUrl } from "@/utils/urlUtils";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import clsx from "clsx";
+import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "../providers/auth-context";
 
 export default function DashboardPage() {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -33,35 +34,18 @@ export default function DashboardPage() {
   const [fetchLoading, setFetchLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
+  const { user, loading } = useAuth();
   useEffect(() => {
     const isAdminMode = sessionStorage.getItem("adminMode") === "true";
 
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        if (user) {
-          console.log("uuid:", user?.uid); // TODO: consider removing this log
-        } else if (isAdminMode) {
-          logging("enabled: Admin mode");
-        } else {
-          console.error("error: No user is signed in."); // TODO: should bd checked
-        }
-        if (!user && !isAdminMode) {
-          router.push("/");
-        } else {
-          setLoading(false);
-        }
-      },
-      (error) => {
-        setError("Failed to authenticate.");
-      },
-    );
-
-    return () => unsubscribe();
-  }, []);
+    if (loading) return; // Prevent navigation during loading
+    if (!user && !isAdminMode) {
+      router.push("/");
+    }
+  }, [loading, user, router]);
 
   const handleSubmit = async () => {
-    logging("Target url:", url, "model", model);
+    logging("Target url:", url, "model:", model);
     if (!validateUrl(url)) {
       logging(`Invalid URL format: ${url}`);
       setFetchError("Invalid URL format.");
@@ -74,7 +58,6 @@ export default function DashboardPage() {
     }
 
     setFetchLoading(true);
-    // setResult(`URL entered: ${url}`); // TODO: consider removing this
     setFetchError(null);
 
     try {
@@ -92,25 +75,29 @@ export default function DashboardPage() {
 
       logging("body", JSON.stringify({ url: url, model: model }));
 
-      const response = await fetch(firebaseFunctionUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ url: url, model: model }),
-      });
+      try {
+        const response = await fetch(firebaseFunctionUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({ url, model }),
+        });
 
-      const { output, elapsed_time, error } = await handleResponse(
-        response,
-        url,
-      );
-      if (error) {
-        setFetchError(error);
-        return;
+        const { output, elapsed_time, error } = await handleResponse(
+          response,
+          url,
+        );
+        if (error) {
+          setFetchError(error);
+          return;
+        }
+        setElapsedTime(elapsed_time);
+        setResult(output);
+      } catch (err) {
+        setFetchError((err as Error).message);
       }
-      setElapsedTime(elapsed_time);
-      setResult(output);
     } catch (e: any) {
       setFetchError(`An error occurred: ${e.message}`);
     } finally {
@@ -118,7 +105,7 @@ export default function DashboardPage() {
     }
   };
 
-  if (loading) return <p>読み込み中...</p>;
+  if (loading) return <div className="spinner">Loading...</div>;
   if (error) return <p>{error}</p>;
 
   return (
@@ -126,10 +113,9 @@ export default function DashboardPage() {
       <div className={columnLayoutStyles}>
         <MenuBar />
         <div>
-          <h1 className="py-6 text-center text-2xl font-bold text-gray-800">
-            ダッシュボード
-          </h1>
-          <p className="mb-6 text-center text-gray-600">
+          <h1 className={clsx(h1, h1Text)}>ダッシュボード</h1>
+
+          <p className={normalText_c}>
             URLを入力して実行してください。
             <br />
           </p>

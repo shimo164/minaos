@@ -5,10 +5,10 @@ import os
 import google.cloud.logging
 from firebase_admin import initialize_app
 from firebase_functions import https_fn
-from gemini_client import generate_gemini_result
-
-from utils.header import get_cors_headers, auth_header
-from utils.helper import create_res, set_config, get_prompt
+from utils.errors import NotFoundError
+from utils.gemini_client import generate_gemini_result
+from utils.header import auth_header, get_cors_headers
+from utils.helper import create_res, generate_prompt, set_config
 from utils.validate import get_request_content
 
 # Set up Google Cloud Logging
@@ -22,7 +22,7 @@ REGION = os.getenv("FUNCTION_REGION", "asia-east1")
 
 
 @https_fn.on_request(region=REGION)
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
+def analyze_content_with_gemini(req: https_fn.Request) -> https_fn.Response:
     logging.debug(f"Received request: {req}")
     origin = req.headers.get("Origin", "")
     cors_headers = get_cors_headers(origin)
@@ -37,7 +37,7 @@ def on_request_example(req: https_fn.Request) -> https_fn.Response:
         try:
             url, model = get_request_content(req)
             task_file = os.environ.get("TASK_FILE", "task02.txt")
-            prompt = get_prompt(url, task_file)
+            prompt = generate_prompt(url, task_file)
             config = set_config(model)
             gemini_result = generate_gemini_result(prompt, model, config)
 
@@ -50,10 +50,19 @@ def on_request_example(req: https_fn.Request) -> https_fn.Response:
                     ensure_ascii=False,
                 ),
             )
+
+            # TODO:
+            if gemini_result.get("generated_text") == "<some words>":
+
+                raise ValueError("The generated text is not valid.")
+
             return create_res({"gemini_result": gemini_result}, 200, cors_headers)
 
         except ValueError as e:
             return create_res({"error": str(e)}, 400, cors_headers)
+
+        except NotFoundError as e:
+            return create_res({"error": str(e)}, 404, cors_headers)
 
         except Exception as e:
             return create_res({"error": f"Failed request: {str(e)}"}, 500, cors_headers)

@@ -1,113 +1,85 @@
 import MenuBar from "@/app/components/MenuBar";
-import { background, container, squareArea } from "@/styles/classNames/layout";
-import { tableCell, xl2_c, xl_c } from "@/styles/classNames/typography";
+import {
+  background,
+  columnLayoutStyles,
+  container,
+  textSpacing_w,
+  textSpacing_wp,
+} from "@/styles/classNames/layout";
+import {
+  h1,
+  h1Text,
+  linkText,
+  normalText_l,
+  xl_l,
+} from "@/styles/classNames/typography";
+import clsx from "clsx";
 
-/**
- * The `AboutPage` component renders an informational page about the website.
- * It includes details about the purpose of the site, usage instructions,
- * user registration options, and a comparison table of features available
- * with or without registration. Additionally, it provides a section for
- * feedback and links to external resources.
- *
- * ## Features
- * - Displays a gradient background with a responsive layout.
- * - Contains a menu bar and a central content area with detailed information.
- * - Provides a table comparing features for registered and unregistered users.
- * - Includes a feedback section with a link to Twitter (X) for user input.
- *
- * ## Usage
- * This component is designed to be used as a standalone page in a Next.js
- * application. It is styled using Tailwind CSS classes for a modern and
- * responsive design.
- *
- * @component
- * @returns {JSX.Element} The rendered AboutPage component.
- */
 export default function AboutPage() {
   return (
     <>
       <div className={background}>
         <MenuBar />
         <div className={container}>
-          <div className={squareArea}>
-            <h1 className={xl2_c}>このサイトについて</h1>
-            <p className="mb-2">
-              このサイトは、技術ブログの校正をAIで行うためのものです。
-            </p>
+          <div className={columnLayoutStyles}>
+            <div className={clsx(normalText_l, "p-4")}>
+              <h1 className={clsx(h1, h1Text)}>このサイトについて</h1>
+              <p className={textSpacing_wp}>
+                URLを入力して実行すると、AIが技術ブログを校正チェックした内容を表示します。
+                <br />
+                利用は無料です。
+              </p>
 
-            <h1 className={xl_c}>使い方</h1>
-            <p className="mb-2">
-              URLを入力して実行するとAIがチェックした内容を表示します。
-            </p>
+              <h2 className={clsx(xl_l, textSpacing_w)}>使い方</h2>
+              <p className={textSpacing_wp}>
+                ログイン後、ダッシュボードに移動するので、URLを入力して実行します。
+              </p>
 
-            <h2 className={xl_c}>ユーザ登録について</h2>
-            <ul className="list-inside list-disc">
-              <li>ユーザ登録は無料です。</li>
-              <li>登録情報はFirebase Authenticationで管理・保護されます。</li>
-            </ul>
+              <h2 className={clsx(xl_l, textSpacing_w)}>
+                匿名ログインについて
+              </h2>
+              <ul className={clsx(textSpacing_wp, "list-disc pl-5")}>
+                <li>
+                  Firebase Authenticationの匿名ログインを利用しています。
+                  <ul className="list-disc pl-5">
+                    <li>
+                      匿名のままユニークユーザーとしてFirebaseが管理していますが、ユーザ情報は保存されません。
+                    </li>
+                    <li>
+                      ユーザーに昇格することは技術的には可能ですが、今回は想定していません。
+                    </li>
+                  </ul>
+                </li>
+                <li>匿名ユーザーは適宜削除します。</li>
+              </ul>
 
-            <table className="mt-4 table-auto border-collapse border border-gray-400 text-center">
-              <thead>
-                <tr>
-                  <th className={tableCell}>項目</th>
-                  <th className={tableCell}>登録なし</th>
-                  <th className={tableCell}>メールアドレスを登録</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className={tableCell}>登録方法</td>
-                  <td className={tableCell}>-</td>
-                  <td className={tableCell}>reCAPTCHA、利用規約</td>
-                </tr>
-                <tr>
-                  <td className={tableCell}>ログイン方法</td>
-                  <td className={tableCell}>-</td>
-                  <td className={tableCell}>メールのリンク</td>
-                </tr>
-                <tr>
-                  <td className={tableCell}>実行時制限</td>
-                  <td className={tableCell}>reCAPTCHA、利用規約</td>
-                  <td className={tableCell}>なし</td>
-                </tr>
+              <h2 className={clsx(xl_l, textSpacing_w)}>生成AIについて</h2>
+              <p className={textSpacing_wp}>
+                Gemini 2.5 Flashを使用しています。
+              </p>
 
-                <tr>
-                  <td className={tableCell}>実行対象</td>
-                  <td className={tableCell}>Zennのみ</td>
-                  <td className={tableCell}>技術ブログ全般</td>
-                </tr>
-                <tr>
-                  <td className={tableCell}>Gemini AI</td>
-                  <td className={tableCell}>2.5 flash</td>
-                  <td className={tableCell}>
-                    <ul className="list-none">
-                      <li>2.5 flash</li>
-                      <li>2.0 flash</li>
-                      <li>2.5 thinking</li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td className={tableCell}>実行履歴保存</td>
-                  <td className={tableCell}>なし</td>
-                  <td className={tableCell}>保存あり</td>
-                </tr>
-              </tbody>
-            </table>
-            <p className="mt-4 text-sm text-gray-500">※ 2.5はpreviewモデル</p>
-            <h2 className="mt-4 text-lg font-bold">フィードバック</h2>
-            <p className="mb-2">感想やフィードバックをお待ちしています。</p>
-            <p className="mb-2">
-              GitHubのIssues{" "}
-              <a
-                href="https://x.com/shimo_s3"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                Twitter(X)
-              </a>
-            </p>
+              <h2 className={clsx(xl_l, textSpacing_w)}>フィードバック</h2>
+              <p className={textSpacing_wp}>
+                感想やフィードバックをお待ちしています。
+                <a
+                  href="https://github.com/shimo164/minaos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkText}
+                >
+                  GitHub
+                </a>{" "}
+                ,{" "}
+                <a
+                  href="https://x.com/shimo_s3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkText}
+                >
+                  Twitter(X)
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -13,8 +13,8 @@
   },
   "functions": [
     {
-      "source": "functions/on_request_example",
-      "codebase": "on_request_example",
+      "source": "functions/analyze_content_with_gemini",
+      "codebase": "analyze_content_with_gemini",
       "ignore": [
         "venv",
         ".git",

@@ -14,7 +14,7 @@ export default function AdminLoginButton() {
         onClick={() => router.push("/admin-login")}
         className={clsx(linkText)}
       >
-        Admin Login
+        (Admin Login)
       </button>
     </div>
   );

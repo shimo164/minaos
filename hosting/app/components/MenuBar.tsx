@@ -52,7 +52,7 @@ export default function MenuBar() {
     <nav className={menubarContainer}>
       <AuthChecker onAuthChange={setIsLoggedIn} />
       {navButton("TOP", "/")}
-      {navButton("使い方", "/about")}
+      {navButton("ABOUT", "/about")}
       {navButton("ダッシュボード", "/dashboard", !isLoggedIn)}
       {navButton("利用規約", "/terms")}
       <button

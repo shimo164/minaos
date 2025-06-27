@@ -1,8 +1,8 @@
 "use client";
 
-import { buttonClass } from "@/styles/classNames/button";
+import { buttonBlue } from "@/styles/classNames/button";
 import { squareArea } from "@/styles/classNames/layout";
-import { errorText, normalText } from "@/styles/classNames/typography";
+import { errorText, normalText_c } from "@/styles/classNames/typography";
 import { logging } from "@/utils/logging";
 import clsx from "clsx";
 import { getAuth, signInAnonymously } from "firebase/auth";
@@ -93,7 +93,7 @@ export default function AnonymousLogin() {
         className="g-recaptcha"
         style={{ margin: "12px" }}
       />
-      <p className={clsx(normalText)}>
+      <p className={clsx(normalText_c)}>
         ログインすると、
         <a href="/terms" className="underline">
           利用規約とプライバシーポリシー
@@ -101,7 +101,7 @@ export default function AnonymousLogin() {
         <br />
         に同意したものとみなされます。
       </p>
-      <button className={buttonClass("green")} onClick={handleAnonymousSignIn}>
+      <button className={buttonBlue} onClick={handleAnonymousSignIn}>
         匿名でログイン
       </button>
       {error && <p className={clsx(errorText)}>{error}</p>}
