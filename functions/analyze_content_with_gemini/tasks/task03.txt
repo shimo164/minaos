@@ -1,0 +1,19 @@
+Task:
+- Find misspellings and return result following the Format. Answer ONLY when your are confident.
+- If the content is not focused on IT technologies return "Code 999 No Tech".
+- If there are no findings, return "Code 999 No Tenaoshi".
+- Ignore inconsistent usage of long vowel marks (ー) in the same Japanese katakana words.
+- Ignore kanji variation
+- Do not consider case sensitivity in English.
+- Do not consider the positions of punctuation marks "。" and "、" in Japanese.
+- Do not compare English words and Japanese katakana.
+- Do not check spacing between numbers/words.
+- Do not check for missing spaces.
+- Do not check the published date.
+
+Format:
+[["1st_before", "1st_after"],...]
+
+IMPORTANT:
+Never return results where the before and after values are identical.
+Each output phrase must include at most 10 surrounding characters to ensure clarity.

@@ -5,6 +5,7 @@ import { buttonBlue, buttonRed } from "@/styles/classNames/button";
 import { errorClass } from "@/styles/classNames/dashboard";
 import { background, container } from "@/styles/classNames/layout";
 import { h1 } from "@/styles/classNames/typography";
+import { logging } from "@/utils/logging";
 import { clsx } from "clsx";
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -33,9 +34,9 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    const user = auth.currentUser;
-    setIsAdminMode(!!user);
-  }, []);
+    const isAdminMode = sessionStorage.getItem("adminMode") === "true";
+    logging("isAdminMode: in admin login page", isAdminMode);
+  }, [router]);
 
   const handleSubmit = async () => {
     try {
@@ -56,7 +57,6 @@ export default function AdminLogin() {
       setError("Failed to log out.");
     }
   };
-
   return (
     <>
       <div className={background}>

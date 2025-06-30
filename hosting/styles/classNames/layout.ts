@@ -66,6 +66,6 @@ export const inputArea = clsx(
 );
 
 export const textSpacing_wp = clsx(
-  "mx-auto w-full max-w-xl pt-4 pb-4 break-words",
+  "mx-auto w-full max-w-2xl pt-4 pb-4 break-words",
 );
-export const textSpacing_w = clsx("mx-auto w-full max-w-xl break-words");
+export const textSpacing_w = clsx("mx-auto w-full max-w-2xl break-words");
