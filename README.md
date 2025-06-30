@@ -100,8 +100,8 @@ firebase deploy --only hosting
 
 ### backend - prod
 
+- Deploy python function in firebase functions
 ```
-cd prod/
 cd $(git rev-parse --show-toplevel)/functions/analyze_content_with_gemini
 python3.13 -m venv venv
 source venv/bin/activate
@@ -110,9 +110,16 @@ firebase deploy --only functions:analyze_content_with_gemini
 deactivate
 ```
 
-### frontend prod
+- Deploy typescript function in firebase functions
+```
+cd $(git rev-parse --show-toplevel)/functions/recaptcha
+npm install
+firebase deploy --only functions:verify_recaptcha
+```
 
-Note: Use Node 22 even wanings are shown
+### frontend - prod
+
+Note: Use Node 22 even warnings are shown
 ```
 nvm use 22
 cd $(git rev-parse --show-toplevel)/hosting
