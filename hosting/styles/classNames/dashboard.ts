@@ -45,5 +45,5 @@ export const resultArea = clsx(
   "p-6",
 );
 
-export const highlightBefore = clsx("bg-red-200 px-0.5 text-red-800");
-export const highlightAfter = clsx("bg-green-200 px-0.5 text-green-800");
+export const highlightBefore = clsx("bg-red-200 text-red-800");
+export const highlightAfter = clsx("bg-green-200 text-green-800");

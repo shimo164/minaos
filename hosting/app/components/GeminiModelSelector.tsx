@@ -31,7 +31,7 @@ export default function GeminiModelSelector({
         <tbody>
           <tr>
             <td className="border px-4 py-1">Gemini 2.0 Flash</td>
-            <td className="border px-4 py-1">★0</td>
+            <td className="border px-4 py-1">★1</td>
             <td className="border px-4 py-1">★3（数秒〜）</td>
           </tr>
           <tr>

@@ -110,7 +110,7 @@ firebase deploy --only functions:analyze_content_with_gemini
 deactivate
 ```
 
-- Deploy typescript function in firebase functions
+- Deploy TypeScript function in firebase functions
 ```
 cd $(git rev-parse --show-toplevel)/functions/recaptcha
 npm install
