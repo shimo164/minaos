@@ -36,9 +36,14 @@ def analyze_content_with_gemini(req: https_fn.Request) -> https_fn.Response:
     if req.method == "POST":
         try:
             url, model = get_request_content(req)
-            task_file = os.environ.get("TASK_FILE", "task02.txt")
+            # TODO: env is not used
+            task_file = os.environ.get("TASK_FILE", "task03.txt")
             prompt = generate_prompt(url, task_file)
+
+            logging.info(f"Generated prompt: {prompt}")
             config = set_config(model)
+            logging.info(f"Configuration set for model: {model}")
+
             gemini_result = generate_gemini_result(prompt, model, config)
 
             logging.info(
@@ -51,10 +56,11 @@ def analyze_content_with_gemini(req: https_fn.Request) -> https_fn.Response:
                 ),
             )
 
-            # TODO:
-            if gemini_result.get("generated_text") == "<some words>":
-
-                raise ValueError("The generated text is not valid.")
+            # TODO: "Code 999 No ..." is returned by Gemini as a special case
+            # Check this condition and handle it accordingly
+            generated_text = gemini_result.get("generated_text", "")
+            if "Code 999" in generated_text:
+                return create_res({"gemini_result": gemini_result}, 200, cors_headers)
 
             return create_res({"gemini_result": gemini_result}, 200, cors_headers)
 

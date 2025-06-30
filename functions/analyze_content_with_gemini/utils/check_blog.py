@@ -95,7 +95,6 @@ def _extract_content(article: BeautifulSoup, blog_type: str) -> dict:
     Extract the content from the article element and return a dictionary with text, length, original length, and blog type.
     """
     if not article:
-        print(f"Failed to fetch article from {url}. Returning empty content.")
         return {
             "text": "",
             "length": 0,
@@ -133,17 +132,3 @@ def get_content(url):
     article = _get_bs_article(url)
     blog_type = _get_blog_type(url)
     return _extract_content(article, blog_type)
-
-
-# Example usage
-# TODO: Remove sometime after
-if __name__ == "__main__":
-
-    url = "https://zenn.dev/shimo_s3/articles/28d9e446065c6e"
-    url = "https://x.com/home"
-
-    result = get_content(url)
-    text = result["text"]
-    length = result["length"]
-    orig_length = result["orig_length"]
-    print("Extracted text:", text)

@@ -8,6 +8,7 @@ import {
   background,
   columnLayoutStyles,
   container,
+  textSpacing_w,
 } from "@/styles/classNames/layout";
 import { h1, h1Text, normalText_c } from "@/styles/classNames/typography";
 
@@ -29,15 +30,19 @@ export default function HomePage() {
         />
         <div className={container}>
           <div className={columnLayoutStyles}>
-            <h1 className={clsx(h1, h1Text)}>ブログ見直しくん</h1>
-            <p className={clsx(normalText_c)}>AIを、技術ブログを校正します。</p>
-            <AuthChecker onAuthChange={setIsLoggedIn} />
-            {!isLoggedIn ? (
-              <AnonymousLogin />
-            ) : (
-              <p className={infoClass}>ログイン済み</p>
-            )}
-            <AdminLoginButton />
+            <div className={textSpacing_w}>
+              <h1 className={clsx(h1, h1Text)}>ブログ見直しくん</h1>
+              <p className={clsx(normalText_c)}>
+                AIが、技術ブログを校正します。
+              </p>
+              <AuthChecker onAuthChange={setIsLoggedIn} />
+              {!isLoggedIn ? (
+                <AnonymousLogin />
+              ) : (
+                <p className={infoClass}>ログイン済み</p>
+              )}
+              <AdminLoginButton />
+            </div>
           </div>
         </div>
       </div>

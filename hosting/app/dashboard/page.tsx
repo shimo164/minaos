@@ -9,7 +9,7 @@ import {
   UrlInputField,
 } from "@/app/components";
 
-import { columnLayoutStyles, squareArea } from "@/styles/classNames";
+import { columnLayoutStyles, textSpacing_w } from "@/styles/classNames";
 
 import ResultDisplay from "@/app/components/ResultDisplay";
 import { h1, h1Text, normalText_c } from "@/styles/classNames/typography";
@@ -20,6 +20,7 @@ import clsx from "clsx";
 import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import InfoDisplay from "../components/InfoDisplay";
 import { useAuth } from "../providers/auth-context";
 
 export default function DashboardPage() {
@@ -27,12 +28,14 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const [url, setUrl] = useState("");
-  const defaultModel = "gemini-2.0-flash";
+  const defaultModel = "gemini-2.5-flash";
+
   const [model, setModel] = useState(defaultModel);
   const [appResult, setResult] = useState<any>(null);
   const [elapsedTime, setElapsedTime] = useState<string | null>(null);
   const [fetchLoading, setFetchLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [fetchInfo, setFetchInfo] = useState<string | null>(null);
 
   const { user, loading } = useAuth();
   useEffect(() => {
@@ -59,6 +62,8 @@ export default function DashboardPage() {
 
     setFetchLoading(true);
     setFetchError(null);
+    setResult(null); // Clear previous result
+    setElapsedTime(null); // Clear previous elapsed time
 
     try {
       const firebaseFunctionUrl =
@@ -85,10 +90,15 @@ export default function DashboardPage() {
           body: JSON.stringify({ url, model }),
         });
 
-        const { output, elapsed_time, error } = await handleResponse(
+        const { output, elapsed_time, info, error } = await handleResponse(
           response,
           url,
         );
+        if (info) {
+          setElapsedTime(elapsed_time);
+          setFetchInfo(info);
+          return;
+        }
         if (error) {
           setFetchError(error);
           return;
@@ -112,24 +122,24 @@ export default function DashboardPage() {
     <PageLayout>
       <div className={columnLayoutStyles}>
         <MenuBar />
-        <div>
-          <h1 className={clsx(h1, h1Text)}>ダッシュボード</h1>
-
-          <p className={normalText_c}>
-            URLを入力して実行してください。
-            <br />
-          </p>
+        <div className={textSpacing_w}>
+          <div>
+            <h1 className={clsx(h1, h1Text)}>ダッシュボード</h1>
+            <p className={normalText_c}>
+              URLを入力して実行してください。
+              <br />
+            </p>
+          </div>
+          <UrlInputField url={url} setUrl={setUrl} />
+          <GeminiModelSelector model={model} setModel={setModel} />
+          <SubmitButton
+            handleSubmit={handleSubmit}
+            fetchLoading={fetchLoading}
+          />
+          <ErrorDisplay error={fetchError} />
+          <InfoDisplay info={fetchInfo} />
+          <ResultDisplay appResult={appResult} elapsedTime={elapsedTime} />
         </div>
-        <div className={squareArea}>
-          test用
-          <br />
-          https://zenn.dev/shimo_s3/articles/28d9e446065c6e
-        </div>
-        <UrlInputField url={url} setUrl={setUrl} />
-        <GeminiModelSelector model={model} setModel={setModel} />
-        <SubmitButton handleSubmit={handleSubmit} fetchLoading={fetchLoading} />
-        <ErrorDisplay error={fetchError} />
-        <ResultDisplay appResult={appResult} elapsedTime={elapsedTime} />
       </div>
     </PageLayout>
   );
